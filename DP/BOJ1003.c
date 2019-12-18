@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-#define MAX_SIZE 40
+#define MAX_SIZE 41
 
 void numPrint(int n, int *zero, int *one);
 
@@ -23,15 +23,15 @@ int main()
 
 void numPrint(int n, int *zero, int *one)
 {
-    int dpZero[MAX_SIZE + 1];
-    int dpOne[MAX_SIZE + 1];
+    int dpZero[MAX_SIZE];
+    int dpOne[MAX_SIZE];
 
     dpZero[0] = 1;
     dpZero[1] = 0;
     dpOne[0] = 0;
     dpOne[1] = 1;
 
-    for (int i = 2; i <= MAX_SIZE; i++) {
+    for (int i = 2; i < MAX_SIZE; i++) {
         dpZero[i] = dpZero[i - 1] + dpZero[i - 2];
         dpOne[i] = dpOne[i - 1] + dpOne[i - 2];
     }

@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-#define MAX_SIZE 90
+#define MAX_SIZE 91
 
 typedef long long ll;
 
@@ -17,12 +17,12 @@ int main() {
 
 ll fibo(int n)
 {
-    ll dp[MAX_SIZE + 1];
+    ll dp[MAX_SIZE];
 
     dp[0] = 0;
     dp[1] = 1;
 
-    for (int i = 2; i <= MAX_SIZE; i++) 
+    for (int i = 2; i < MAX_SIZE; i++) 
         dp[i] = dp[i - 1] + dp[i - 2];
     
     return dp[n];
