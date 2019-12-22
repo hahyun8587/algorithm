@@ -3,7 +3,7 @@
 #define MAX_SIZE 500
 
 int max(int a, int b);
-int aMax(int *arr, int n);
+int arrMax(int *arr, int n);
 int maxSum(int (*tri)[MAX_SIZE], int n);
 
 int main()
@@ -27,7 +27,7 @@ int max(int a, int b)
     return a > b ? a : b;
 }
 
-int aMax(int *arr, int n)
+int arrMax(int *arr, int n)
 {
     int max_ = 0;
 
@@ -55,5 +55,5 @@ int maxSum(int (*tri)[MAX_SIZE], int n)
             }
         }
     }
-    return aMax(dp[n - 1], n);
+    return arrMax(dp[n - 1], n);
 }
