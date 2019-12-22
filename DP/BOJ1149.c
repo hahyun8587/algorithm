@@ -43,7 +43,7 @@ int minCost(int (*cost)[3], int n)
         for (int j = 0; j < 3; j++) {
             for (int k = 0; k < 3; k++) {
                 if (j != k) 
-                    dp[i][k] = min(cost[i - 1][k] + dp[i - 1][j], dp[i][k]);
+                    dp[i][k] = min(dp[i - 1][j] + cost[i - 1][k], dp[i][k]);
             }
         }
     }
