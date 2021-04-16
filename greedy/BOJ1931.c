@@ -13,6 +13,7 @@ typedef struct {
 
 heap* initHeap(int (*arr)[ARR_SIZE], int n);
 int argMax(int (*arr)[ARR_SIZE], int i, int j);
+void swap(int *a, int *b);
 void sink(heap *h, int s);
 void maxHeap(heap *h);
 void delete(heap *h);
@@ -45,8 +46,20 @@ int argMax(int (*arr)[ARR_SIZE], int i, int j) {
         return arr[i][STD2] > arr[j][STD2] ? i : j;         
 }
 
-void sink(heap *h, int s) {
+void swap(int *a, int *b) {
+    int temp;
 
+    temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+void sink(heap *h, int s) {
+    int curr = s;
+
+    while(2 * curr <= h->n - 1) {
+            
+    }
 
 
 
