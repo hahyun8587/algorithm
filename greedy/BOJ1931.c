@@ -2,40 +2,55 @@
 #include <malloc.h>
 
 #define ARR_SIZE 2
-#define MAX_SIZE 100000
 #define STD1 1
 #define STD2 0
 
 typedef struct {
-    int (*ha)[ARR_SIZE];
+    int **ha;
     int n;
     int m;
 } heap;
 
-heap* initHeap(int (*arr)[ARR_SIZE], int n);
-int argMax(int (*arr)[ARR_SIZE], int i, int j);
+int** malloc2D(int n, int m);
+heap* initHeap(int **arr, int n);
+int argMax(int **arr, int i, int j);
 void swap(int **a, int **b);
 void sink(heap *h, int s);
 void maxHeap(heap *h);
-void delete(heap *h);
+void _delete(heap *h);
 void heapSort(heap *h);
-int maxConf(int (*arr)[ARR_SIZE], int n);
+int maxConf(int **arr, int n);
+void free2D(int **arr, int n);
 
 int main() {
-    int arr[MAX_SIZE + 1][ARR_SIZE];
+    int **arr;
     int N;
 
     scanf("%d", &N);
+    
+    arr = malloc2D(N + 1, ARR_SIZE);
 
-    for (int i = 1; i <= MAX_SIZE; i++)
+    for (int i = 1; i <= N; i++)
         scanf("%d %d", &arr[i][0], &arr[i][1]);
 
-    printf("%d\n", maxConf(arr, MAX_SIZE + 1));        
+    printf("%d\n", maxConf(arr, N + 1)); 
+    free2D(arr, N + 1);
 
     return 0;
 }
 
-heap* initHeap(int (*arr)[ARR_SIZE], int n) {
+int** malloc2D(int n, int m) {
+    int **arr;
+
+    arr = (int **) malloc(n * sizeof(int *));
+
+    for (int i = 0; i < n; i++)
+        arr[i] = (int *) malloc(m * sizeof(int));
+
+    return arr;
+}
+
+heap* initHeap(int **arr, int n) {
     heap *h;
 
     h = (heap *) malloc(sizeof(heap));        
@@ -46,7 +61,7 @@ heap* initHeap(int (*arr)[ARR_SIZE], int n) {
     return h;
 }
 
-int argMax(int (*arr)[ARR_SIZE], int i, int j) {
+int argMax(int **arr, int i, int j) {
     if (arr[i][STD1] > arr[j][STD1])
         return i;
     else if (arr[i][STD1] < arr[j][STD1])
@@ -93,7 +108,7 @@ void maxHeap(heap *h) {
         sink(h, i);
 }
 
-void delete(heap *h) {
+void _delete(heap *h) {
     swap(&h->ha[1], &h->ha[h->n]);
 
     h->n -= 1;
@@ -107,10 +122,10 @@ void heapSort(heap *h) {
     maxHeap(h);
 
     for (int i = 1; i <= numIt; i++)
-        delete(h);
+        _delete(h);
 }
 
-int maxConf(int (*arr)[ARR_SIZE], int n) {
+int maxConf(int **arr, int n) {
     heap *h;
     int end;
     int count = 1;
@@ -129,4 +144,11 @@ int maxConf(int (*arr)[ARR_SIZE], int n) {
         }
     }
     return count;
+}
+
+void free2D(int **arr, int n) {
+    for (int i = 0; i < n; i++)
+        free(arr[i]);
+
+    free(arr);    
 }
