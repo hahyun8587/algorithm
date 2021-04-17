@@ -7,7 +7,7 @@
 #define STD2 0
 
 typedef struct {
-    int **ha;
+    int (*ha)[ARR_SIZE];
     int n;
     int m;
 } heap;
@@ -22,8 +22,15 @@ void heapSort(heap *h);
 int maxConf(int (*arr)[ARR_SIZE], int n);
 
 int main() {
+    int arr[MAX_SIZE + 1][ARR_SIZE];
+    int N;
 
+    scanf("%d", &N);
 
+    for (int i = 1; i <= MAX_SIZE; i++)
+        scanf("%d %d", &arr[i][0], &arr[i][1]);
+
+    printf("%d\n", maxConf(arr, MAX_SIZE + 1));        
 
     return 0;
 }
@@ -60,8 +67,8 @@ void sink(heap *h, int s) {
     int curr = s;
     int std;
 
-    while(2 * curr <= h->n - 1) {
-        if (2 * curr < h->n - 1)
+    while (2 * curr <= h->n) {
+        if (2 * curr < h->n)
             std = argMax(h->ha, 2 * curr, 2 * curr + 1);
         else 
             std = 2 * curr;
@@ -82,12 +89,12 @@ void sink(heap *h, int s) {
 }
 
 void maxHeap(heap *h) {
-    for(int i = (h->n - 1) / 2; i > 0; i--)
+    for (int i = h->n / 2; i > 0; i--)
         sink(h, i);
 }
 
 void delete(heap *h) {
-    swap(&h->ha[1], &h->ha[h->n - 1]);
+    swap(&h->ha[1], &h->ha[h->n]);
 
     h->n -= 1;
 
@@ -95,17 +102,31 @@ void delete(heap *h) {
 }
 
 void heapSort(heap *h) {
-    int numIt = h->n - 2;
+    int numIt = h->n - 1;
 
     maxHeap(h);
 
-    for(int i = 1; i <= numIt; i++)
+    for (int i = 1; i <= numIt; i++)
         delete(h);
 }
 
 int maxConf(int (*arr)[ARR_SIZE], int n) {
+    heap *h;
+    int end;
+    int count = 1;
 
+    h = initHeap(arr, n - 1);
 
+    heapSort(h);
+    free(h);
 
+    end = arr[1][1];
 
+    for (int i = 2; i < n; i++) {
+        if (arr[i][0] >= end) {
+            end = arr[i][1];
+            count++;
+        }
+    }
+    return count;
 }
