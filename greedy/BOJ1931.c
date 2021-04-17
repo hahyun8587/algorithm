@@ -19,7 +19,7 @@ void sink(heap *h, int s);
 void maxHeap(heap *h);
 void delete(heap *h);
 void heapSort(heap *h);
-int maxConf(int (*arr)[ARR_SIZE]);
+int maxConf(int (*arr)[ARR_SIZE], int n);
 
 int main() {
 
@@ -70,7 +70,7 @@ void sink(heap *h, int s) {
             swap(&h->ha[curr], &h->ha[std]);
         else if (h->ha[curr][STD1] == h->ha[std][STD1]) {
             if (h->ha[curr][STD2] < h->ha[std][STD2]) 
-                swap(h->ha[curr], h->ha[std]);
+                swap(&h->ha[curr], &h->ha[std]);
             else 
                 break;
         }
@@ -87,8 +87,25 @@ void maxHeap(heap *h) {
 }
 
 void delete(heap *h) {
-    
+    swap(&h->ha[1], &h->ha[h->n - 1]);
+
+    h->n -= 1;
+
+    sink(h, 1);
+}
+
+void heapSort(heap *h) {
+    int numIt = h->n - 2;
+
+    maxHeap(h);
+
+    for(int i = 1; i <= numIt; i++)
+        delete(h);
+}
+
+int maxConf(int (*arr)[ARR_SIZE], int n) {
 
 
-    
+
+
 }
