@@ -3,7 +3,6 @@
 
 #define MAX_SIZE 50
 #define ASCII_VAL 48
-#define ASCII_PLUS 43
 #define ASCII_MINUS 45
 
 int str2int(char *arr, int n);
@@ -28,37 +27,28 @@ int str2int(char *arr, int n) {
         val += (arr[i] - ASCII_VAL) * unit;
         unit /= 10;
     }
-    printf("str2int val: %d\n", val);
     return val;
 }
 
 int minVal(char *arr) {
     int count = 0;
-    int type = 0;
+    int type = 1;
     int val = 0;
-    
-    for (int i = 0; arr[i] != '\0'; i++) {
+    int i;
+
+    for (i = 0; arr[i] != '\0'; i++) {
         if (arr[i] >= ASCII_VAL)
             count++;
         else {
-            if (!type) {
-                if (arr[i] == ASCII_PLUS)
-                    val += str2int(&arr[i - count], count);
-                else { 
-                    type = 1;
+            val += type * str2int(&arr[i - count], count);
 
-                    val -= str2int(&arr[i - count], count);
-                }
-            }
-            else 
-                val -= str2int(&arr[i - count], count);
+            if (type == 1 && arr[i] == ASCII_MINUS)
+                type = -1; 
 
-            count = 0;
-
-
-            printf("%d\n", val);
-                
+            count = 0;    
         }    
     }
+    val += type * str2int(&arr[i - count], count);
+
     return val;
 }
