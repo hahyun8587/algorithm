@@ -4,12 +4,20 @@
 #define LIMIT 2
 
 int max(int a, int b);
-int maxScore(int (*dp)[LIMIT][MAX_SIZE + 1], int n, int *score);
+int maxScore(int *score, int n);
 
 int main() {
+    int N;
+    int score[MAX_SIZE];
 
+    scanf("%d", &N);
 
+    for (int i = 0; i < N; i++) 
+        scanf("%d", &score[i]);
 
+    printf("%d\n", maxScore())    
+
+    
 
     return 0;
 }
@@ -18,8 +26,9 @@ int max(int a, int b) {
     return a > b ? a : b;
 }
 
-int maxScore(int (*dp)[LIMIT][MAX_SIZE + 1], int n, int *score) {
-    int ans;
+int maxScore(int *score, int n) {
+    int dp[MAX_SIZE - 1][LIMIT][MAX_SIZE + 1];
+    int ans = 0;
 
     dp[0][0][0] = 0;
 
@@ -41,16 +50,22 @@ int maxScore(int (*dp)[LIMIT][MAX_SIZE + 1], int n, int *score) {
                 if (!j) {
                     if (dp[i - 1][j][k - 2] != -1 && dp[i - 1][j + 1][k - 2] != -1)
                         dp[i][j][k] = max(dp[i - 1][j][k - 2], dp[i - 1][j + 1][k - 2]) + score[k - 1];
-                        
+                    else if (dp[i - 1][j][k - 2] == -1 && dp[i - 1][j + 1][k - 2] != -1)
+                        dp[i][j][k] = dp[i - 1][j + 1][k - 2] + score[k - 1];
+                    else if (dp[i - 1][j][k - 2] != -1 && dp[i - 1][j + 1][k - 2] == -1)
+                        dp[i][j][k] = dp[i - 1][j][k - 2] + score[k - 1];
+                    else 
+                        dp[i][j][k] = -1;        
                 }
+                else 
+                    dp[i][j][k] = dp[i - 1][j - 1][k - 1] != -1 ? dp[i - 1][j - 1][k - 1] + score[k - 1] : -1;
             }
         }
     }
-    
 
-
-
-
-
-
+    for (int i = (n - 1) / 2; i <= n - 2; i++) {
+        for (int j = 0; j < LIMIT; j++) 
+            ans = max(dp[i][j][n - 1], ans);
+    }
+    return ans;
 }
