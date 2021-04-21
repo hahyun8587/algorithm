@@ -25,7 +25,7 @@ int max(int a, int b) {
 }
 
 int maxScore(int *score, int n) {
-    int dp[MAX_SIZE - 1][LIMIT][MAX_SIZE + 1];
+    int dp[MAX_SIZE + 1][LIMIT][MAX_SIZE + 1];
     int ans = 0;
 
     dp[0][0][0] = 0;
