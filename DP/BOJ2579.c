@@ -15,9 +15,7 @@ int main() {
     for (int i = 0; i < N; i++) 
         scanf("%d", &score[i]);
 
-    printf("%d\n", maxScore())    
-
-    
+    printf("%d\n", maxScore(score, N));    
 
     return 0;
 }
@@ -33,20 +31,25 @@ int maxScore(int *score, int n) {
     dp[0][0][0] = 0;
 
     for (int i = 0; i < LIMIT; i++) {
-        for (int j = -i + 1; j < n; j++)
+        for (int j = -i + 1; j <= n; j++)
             dp[0][i][j] = -1;
     }
 
-    for (int i = 1; i <= n - 2; i++) {
+    for (int i = 0; i < LIMIT; i++) {
+        for (int j = 0; j <= n; j++) 
+            dp[1][i][j] = !i && (j == 1 || j == 2) ? score[j - 1] : -1;
+    }
+
+    for (int i = 2; i <= n; i++) {
         for (int j = 0; j < LIMIT; j++) {
             for (int k = 0; k <= -j + 1; k++) 
                 dp[i][j][k] = -1;
         }
     }
 
-    for (int i = 1; i <= n - 2; i++) {
+    for (int i = 2; i <= n; i++) {
         for (int j = 0; j < LIMIT; j++) {
-            for (int k = -j + 2; k < n; k++) {
+            for (int k = -j + 2; k <= n; k++) {
                 if (!j) {
                     if (dp[i - 1][j][k - 2] != -1 && dp[i - 1][j + 1][k - 2] != -1)
                         dp[i][j][k] = max(dp[i - 1][j][k - 2], dp[i - 1][j + 1][k - 2]) + score[k - 1];
@@ -63,9 +66,9 @@ int maxScore(int *score, int n) {
         }
     }
 
-    for (int i = (n - 1) / 2; i <= n - 2; i++) {
+    for (int i = n / 2; i <= n; i++) {
         for (int j = 0; j < LIMIT; j++) 
-            ans = max(dp[i][j][n - 1], ans);
+            ans = max(dp[i][j][n], ans);
     }
     return ans;
 }
