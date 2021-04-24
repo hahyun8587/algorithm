@@ -6,9 +6,18 @@ void aprintf(int *arr, int n);
 void perm(int *visited, int n, int *dst, int m, int a, int count);
 
 int main() {
+    int N, M;
+    int visited[MAX_SIZE];
+    int dst[MAX_SIZE];
+
+    scanf("%d %d", &N, &M);
+
+    for (int i = 0; i < N; i++) 
+        visited[i] = 0;
+
+    for (int i = 1; i <= N; i++) 
+        perm(visited, N, dst, M, i, 0);
     
-
-
     return 0;
 }
 
