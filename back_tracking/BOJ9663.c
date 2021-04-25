@@ -31,9 +31,13 @@ void initArr(int (*arr)[MAX_SIZE], int n) {
 
 void denote(int (*visited)[MAX_SIZE], int n, int x, int y, int val) {
     for (int i = x + 1; i < n; i++) {
-        visited[i][-i + x + y] = val;
-        visited[i][y] = val;
-        visited[i][i - x + y] = val;
+        if (-i + x + y >= 0)
+            visited[i][-i + x + y] += val;
+        
+        visited[i][y] += val;
+        
+        if (i - x + y < n)
+            visited[i][i - x + y] += val;
     }   
 }
 
@@ -49,7 +53,7 @@ int nQueen(int (*visited)[MAX_SIZE], int n, int x, int y) {
         if (!visited[x + 1][i])
             count += nQueen(visited, n, x + 1, i);            
     }
-    denote(visited, n, x, y, 0);
+    denote(visited, n, x, y, -1);
 
     return count;
 }
