@@ -1,7 +1,7 @@
 #include <stdio.h>
 
 #define MAX_SIZE 9
-#define NUM_AREA MAX_SIZE * 2
+#define NUM_AREA MAX_SIZE * 3
 #define MAX_NUM_COOR MAX_SIZE * MAX_SIZE
 #define NDIM 2
 
@@ -31,6 +31,7 @@ int main() {
 
     val2vis(src, visited);
     sudoku(src, coor, numCoor, visited, dst);
+    putchar('\n');
     aprintf(dst);
 
     return 0;
@@ -64,8 +65,9 @@ void val2vis(int (*src)[MAX_SIZE], int (*dst)[MAX_SIZE]) {
     for (int i = 0; i < MAX_SIZE; i++) {
         for (int j = 0; j < MAX_SIZE; j++) {
             if (val = src[i][j]) {
-                dst[i][val - 1] = 1;                
-                dst[i / 3 * 3 + MAX_SIZE + j / 3][val - 1] = 1;
+                dst[i][val - 1] = 1;
+                dst[j + MAX_SIZE][val - 1] = 1;                
+                dst[i / 3 * 3 + 2 * MAX_SIZE + j / 3][val - 1] = 1;
             }
         }
     }
@@ -77,6 +79,7 @@ int _sudoku(int (*src)[MAX_SIZE], int (*coor)[NDIM], int n, int (*visited)[MAX_S
 
     dst[x][y] = val;
     visited[x][val - 1] = 1;
+    visited[y + MAX_SIZE][val - 1] = 1;
     visited[x / 3 * 3 + MAX_SIZE + y / 3][val - 1] = 1;
     count++;
 
@@ -84,12 +87,13 @@ int _sudoku(int (*src)[MAX_SIZE], int (*coor)[NDIM], int n, int (*visited)[MAX_S
         return 1;
 
     for (int i = 0; i < MAX_SIZE; i++) {
-        if (!visited[nx][i] && !visited[nx / 3 * 3 + MAX_SIZE + ny / 3][i]) {
+        if (!visited[nx][i] && !visited[y + MAX_SIZE][i] && !visited[nx / 3 * 3 + 2 * MAX_SIZE + ny / 3][i]) {
             if (_sudoku(src, coor, n, visited, dst, count, i + 1))
                 return 1;
         }
     }
     visited[x][val - 1] = 0;
+    visited[y + MAX_SIZE][val - 1] = 0;
     visited[x / 3 * 3 + MAX_SIZE + y / 3][val - 1] = 0;
 
     return 0;
@@ -99,7 +103,7 @@ void sudoku(int (*src)[MAX_SIZE], int (*coor)[NDIM], int n, int (*visited)[MAX_S
     int sx = coor[0][0], sy = coor[0][1];
 
     for (int i = 0; i < MAX_SIZE; i++) {
-        if (!visited[sx][i] && !visited[sx / 3 * 3 + MAX_SIZE + sy / 3][i]) {
+        if (!visited[sx][i] && !visited[sy + MAX_SIZE][i] && !visited[sx / 3 * 3 + 2 * MAX_SIZE + sy / 3][i]) {
             if (_sudoku(src, coor, n, visited, dst, 0, i + 1))
                 return;
         }
