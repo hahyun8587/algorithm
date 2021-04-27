@@ -31,7 +31,6 @@ int main() {
 
     val2vis(src, visited);
     sudoku(src, coor, numCoor, visited, dst);
-    putchar('\n');
     aprintf(dst);
 
     return 0;
@@ -80,21 +79,21 @@ int _sudoku(int (*src)[MAX_SIZE], int (*coor)[NDIM], int n, int (*visited)[MAX_S
     dst[x][y] = val;
     visited[x][val - 1] = 1;
     visited[y + MAX_SIZE][val - 1] = 1;
-    visited[x / 3 * 3 + MAX_SIZE + y / 3][val - 1] = 1;
+    visited[x / 3 * 3 + 2 * MAX_SIZE + y / 3][val - 1] = 1;
     count++;
 
     if (count == n) 
         return 1;
 
     for (int i = 0; i < MAX_SIZE; i++) {
-        if (!visited[nx][i] && !visited[y + MAX_SIZE][i] && !visited[nx / 3 * 3 + 2 * MAX_SIZE + ny / 3][i]) {
+        if (!visited[nx][i] && !visited[ny + MAX_SIZE][i] && !visited[nx / 3 * 3 + 2 * MAX_SIZE + ny / 3][i]) {
             if (_sudoku(src, coor, n, visited, dst, count, i + 1))
                 return 1;
         }
     }
     visited[x][val - 1] = 0;
     visited[y + MAX_SIZE][val - 1] = 0;
-    visited[x / 3 * 3 + MAX_SIZE + y / 3][val - 1] = 0;
+    visited[x / 3 * 3 + 2 * MAX_SIZE + y / 3][val - 1] = 0;
 
     return 0;
 }
