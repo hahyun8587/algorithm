@@ -5,6 +5,7 @@
 #define INF 8910
 
 int calc(int (*stats)[MAX_SIZE], int *teammate, int end);
+int opSum(int (*stats)[MAX_SIZE], int *visited, int n);
 int min(int a, int b);
 void _MDS(int (*stats)[MAX_SIZE], int n, int *teammate, int m, int *visited, int *diff, int num, int sum);
 int MDS(int (*arr)[MAX_SIZE], int n);
@@ -42,14 +43,14 @@ void _MDS(int (*stats)[MAX_SIZE], int n, int *teammate, int m, int *visited, int
     visited[num - 1] = 1;
     sum += calc(stats, teammate, m);                
 
-    if (m == n / 2) 
+    if (m == n / 2) {
         *diff = min(abs(total - 2 * sum), *diff);
-        
+    }
     else {    
         for (int i = num + 1; i <= n; i++) 
             _MDS(stats, n, teammate, m, visited, diff, i, sum);
     }
-    visited[num - 1] = 0;
+    
 }
 
 int MDS(int (*arr)[MAX_SIZE], int n) {
