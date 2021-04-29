@@ -68,14 +68,12 @@ void _embed(int *src, int n, int *numOp, int *dst, int count, int op, int result
     if (count == n - 1) {
         dst[0] = max(result, dst[0]);
         dst[1] = min(result, dst[1]);
-        numOp[op]++;
-
-        return;
     }
-
-    for (int i = 0; i < NUM_OP; i++) {
-        if (numOp[i])
-            _embed(src, n, numOp, dst, count, i, result);          
+    else {
+        for (int i = 0; i < NUM_OP; i++) {
+            if (numOp[i])
+                _embed(src, n, numOp, dst, count, i, result);          
+        }
     }
     numOp[op]++;
 }
