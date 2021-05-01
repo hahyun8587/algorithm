@@ -37,7 +37,7 @@ int main() {
     
     scanf("%d", &N);
 
-    q = initQueue(N);
+    q = initQueue(N + 1);
 
     for (int i = 1; i <= N; i++) {
         scanf("%s", arr);
