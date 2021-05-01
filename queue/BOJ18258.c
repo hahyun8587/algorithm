@@ -31,8 +31,18 @@ int back(queue *q);
 void qprintf(queue *q, char *arr);
 
 int main() {
+    queue *q;
     char arr[MAX_SIZE];
+    int N;
+    
+    scanf("%d", &N);
 
+    q = initQueue(N);
+
+    for (int i = 1; i <= N; i++) {
+        scanf("%s", arr);
+        qprintf(q, arr);
+    }
     return 0;
 }
 
@@ -78,11 +88,17 @@ int pop(queue *q) {
 }
 
 int front(queue *q) {
-    return q->head > 0 ? q->qa[q->head - 1] : q->qa[q->n - 1];
+    if (empty(q))
+        return -1;
+
+    return q->qa[q->tail];    
 }
 
 int back(queue *q) {
-    return q->qa[q->tail];
+    if (empty(q))
+        return -1;
+
+    return q->head > 0 ? q->qa[q->head - 1] : q->qa[q->n - 1];
 }
 
 void qprintf(queue *q, char *arr) {
@@ -90,19 +106,20 @@ void qprintf(queue *q, char *arr) {
         int val;
 
         scanf("%d", &val);
-        printf("%d", push(q, val));
+        push(q, val);
     }
-    else if (!strcmp(arr, COMMAND_POP)) 
-        printf("%d", pop(q));
-    else if (!strcmp(arr, COMMAND_SIZE))
-        printf("%d", size(q));
-    else if (!strcmp(arr, COMMAND_EMPTY))
-        printf("%d", empty(q));
-    else if (!strcmp(arr, COMMAND_FRONT))
-        printf("%d", front(q));
-    else if (!strcmp(arr, COMMAND_BACK))
-        printf("%d", back(q));
+    else {
+        if (!strcmp(arr, COMMAND_POP)) 
+            printf("%d", pop(q));
+        else if (!strcmp(arr, COMMAND_SIZE))
+            printf("%d", size(q));
+        else if (!strcmp(arr, COMMAND_EMPTY))
+            printf("%d", empty(q));
+        else if (!strcmp(arr, COMMAND_FRONT))
+            printf("%d", front(q));
+        else if (!strcmp(arr, COMMAND_BACK))
+            printf("%d", back(q));
 
-    putchar('\n');                    
+        putchar('\n');  
+    }                  
 }
-
