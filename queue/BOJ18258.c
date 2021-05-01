@@ -43,6 +43,9 @@ int main() {
         scanf("%s", arr);
         qprintf(q, arr);
     }
+    free(q->qa);
+    free(q);
+
     return 0;
 }
 
