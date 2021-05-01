@@ -25,9 +25,12 @@ int main() {
     int K;
 
     scanf("%d", &K);
+
+    for (int i = 0; i < K; i++) 
+        scanf("%d", &arr[i]);
+
+    printf("%d\n", sum(arr, K));     
     
-
-
     return 0;
 }
 
