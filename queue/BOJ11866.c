@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <malloc.h>
 
+#define MAX_SIZE 1000
+
 typedef struct {
     int *qa;
     int n;
@@ -21,9 +23,12 @@ void jose(int *dst, int n, int k);
 void aprintf(int *arr, int n);
 
 int main() {
-  
+    int N, K;
+    int perm[MAX_SIZE];
 
-
+    scanf("%d %d", &N, &K); 
+    jose(perm, N, K);
+    aprintf(perm, N);
 
     return 0;
 }
@@ -71,13 +76,28 @@ int pop(queue *q) {
 
 void jose(int *dst, int n, int k) {
     queue *q;
+    int count = 0;
 
     q = initQueue(n + 1);
 
     for (int i = 1; i <= n; i++)
         push(q, i);
 
-    while ()
-    
+    while (!empty(q)) {
+        for (int i = 1; i < k; i++) 
+            push(q, pop(q));
 
+        dst[count++] = pop(q);      
+    }
+    free(q->qa);
+    free(q);
+}
+
+void aprintf(int *arr, int n) {
+    printf("<");
+
+    for (int i = 0; i <= n - 2; i++) 
+        printf("%d, ", arr[i]);
+
+    printf("%d>\n", arr[n - 1]);    
 }
