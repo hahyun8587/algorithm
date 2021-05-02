@@ -13,8 +13,8 @@
 typedef struct {
     int *da;
     int n;
-    int lp;
-    int rp;
+    int head;
+    int tail;
 } deque;
 
 typedef enum {
@@ -40,6 +40,22 @@ int main() {
 }
 
 deque* initDeque(int n) {
+    deque *d;
+
+    d = (deque *) malloc(sizeof(deque));
+    d->da = (int *) malloc(sizeof(int) * n);
+    d->n = n;
+    d->head = d->n - 1;
+    d->tail = 0;
+
+    return d;
+}
+
+int size(deque *d) {
+    return d->head >= d->tail ? d->n - (d->head + 1 - d->tail) : d->tail - (d->head + 1);     
+}
+
+int push_front(deque *d, int x) {
     
 
 
