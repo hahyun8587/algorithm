@@ -30,6 +30,7 @@ int pop_back(deque *d);
 int front(deque *d);
 int back(deque *d);
 void dprintf_(deque *d, char *str);
+void freeDeque(deque *d);
 
 int main() {
     deque *d;
@@ -44,6 +45,8 @@ int main() {
         scanf("%s", str);
         dprintf_(d, str);
     }
+    freeDeque(d);
+
     return 0;
 }
 
@@ -143,4 +146,9 @@ void dprintf_(deque *d, char *str) {
             break;    
         }
     }
+}
+
+void freeDeque(deque *d) {
+    free(d->da);
+    free(d);
 }
