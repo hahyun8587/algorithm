@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <malloc.h>
+#include <string.h>
 
 #define MAX_SIZE 11
 #define FUNC_NUM 8
@@ -19,25 +20,30 @@ typedef struct {
     int tail;
 } deque;
 
-typedef enum {
-    false, true
-} bool;
-
 deque* initDeque(int n);
 int size(deque *d);
 int push_front(deque *d, int x);
 int push_back(deque *d, int x);
-bool empty(deque *d);
+int empty(deque *d);
 int pop_front(deque *d);
 int pop_back(deque *d);
 int front(deque *d);
 int back(deque *d);
-void dprintf(deque *d, char *arr);
+void dprintf_(deque *d, char *str);
 
 int main() {
+    deque *d;
+    char str[MAX_SIZE];
+    int N;
 
+    scanf("%d", &N);
 
+    d = initDeque(N + 1);
 
+    for (int i = 1; i <= N; i++) {
+        scanf("%s", str);
+        dprintf_(d, str);
+    }
     return 0;
 }
 
@@ -79,8 +85,8 @@ int push_back(deque *d, int x) {
     return x;
 }
 
-bool empty(deque *d) {
-    return size(d) ? false : true;
+int empty(deque *d) {
+    return size(d) ? 0 : 1;
 }
 
 int pop_front(deque *d) {
@@ -105,20 +111,36 @@ int pop_back(deque *d) {
 }
 
 int front(deque *d) {
+    if (empty(d))
+        return -1;
+
     return d->tail ? d->da[d->tail - 1] : d->da[d->n - 1];
 }
 
 int back(deque *d) {
+    if (empty(d))
+        return -1;
+
     return d->da[(d->head + 1) % d->n];
 }
 
-void dprintf(deque *d, char *arr) {
-    void *func[FUNC_NUM] = {push_front, push_back, pop_front, pop_back, size, empty, front, back};
-    char *str[FUNC_NUM] = {COMMAND_PUSH_FRONT, COMMAND_PUSH_BACK, COMMAND_POP_FRONT, COMMAND_POP_BACK, COMMAND_SIZE, COMMAND_EMPTY, COMMAND_FRONT, COMMAND_BACK};
+void dprintf_(deque *d, char *str) {
+    int (*fp1[])(deque*, int) = {push_front, push_back};
+    int (*fp2[])(deque*) = {pop_front, pop_back, size, empty, front, back};
+    char *fn[] = {COMMAND_PUSH_FRONT, COMMAND_PUSH_BACK, COMMAND_POP_FRONT, COMMAND_POP_BACK, COMMAND_SIZE, COMMAND_EMPTY, COMMAND_FRONT, COMMAND_BACK};
 
-    
+    for (int i = 0; i < FUNC_NUM; i++) {
+        if (!strcmp(fn[i], str)) {
+            if (i < 2) {
+                int val;
 
+                scanf("%d", &val);
+                fp1[i](d, val);
+            }
+            else 
+                printf("%d\n", fp2[i - 2](d));
 
-
+            break;    
+        }
+    }
 }
-
