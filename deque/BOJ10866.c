@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <malloc.h>
 
+#define MAX_SIZE 11
+#define FUNC_NUM 8
 #define COMMAND_PUSH_FRONT "push_front"
 #define COMMAND_PUSH_BACK "push_back"
 #define COMMAND_POP_FRONT "pop_front"
@@ -56,8 +58,67 @@ int size(deque *d) {
 }
 
 int push_front(deque *d, int x) {
+    if (size(d) == d->n - 1)    
+        return -1;
+
+    d->da[d->tail++] = x;
+    d->tail %= d->n;
+
+    return x;
+}
+
+int push_back(deque *d, int x) {
+    if (size(d) == d->n - 1)
+        return -1;
+
+    d->da[d->head--] = x;
+
+    if (d->head < 0)
+        d->head = d->n - 1;
+    
+    return x;
+}
+
+bool empty(deque *d) {
+    return size(d) ? false : true;
+}
+
+int pop_front(deque *d) {
+    if (empty(d))
+        return -1;
+
+    d->tail--;
+
+    if (d->tail < 0)
+        d->tail = d->n - 1;
+
+    return d->da[d->tail];    
+}
+
+int pop_back(deque *d) {
+    if (empty(d))
+        return -1;
+
+    d->head = (d->head + 1) % d->n;    
+
+    return d->da[d->head];
+}
+
+int front(deque *d) {
+    return d->tail ? d->da[d->tail - 1] : d->da[d->n - 1];
+}
+
+int back(deque *d) {
+    return d->da[(d->head + 1) % d->n];
+}
+
+void dprintf(deque *d, char *arr) {
+    void *func[FUNC_NUM] = {push_front, push_back, pop_front, pop_back, size, empty, front, back};
+    char *str[FUNC_NUM] = {COMMAND_PUSH_FRONT, COMMAND_PUSH_BACK, COMMAND_POP_FRONT, COMMAND_POP_BACK, COMMAND_SIZE, COMMAND_EMPTY, COMMAND_FRONT, COMMAND_BACK};
+
     
 
 
 
 }
+
