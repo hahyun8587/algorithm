@@ -16,18 +16,21 @@ int push_front(deque *d, int x);
 int push_back(deque *d, int x);
 int empty(deque *d);
 int pop_front(deque *d);
-int pop_back(deque *d);
 int front(deque *d);
-int back(deque *d);
-void rotate(deque *d, int (*fp1)(deque *, int x), int (*fp2)(deque *), int t);
 int min(int a, int b);
-int minExe(int *arr, int n, int size);
+void freeDeque(deque *d);
+int minExe(int *arr, int n, int ds);
 
 int main() {
-    
+    int N, M;
+    int arr[MAX_SIZE];
 
+    scanf("%d %d", &N, &M);
 
+    for (int i = 0; i < M; i++) 
+        scanf("%d", &arr[i]);
 
+    printf("%d\n", minExe(arr, M, N));
 
     return 0;
 }
@@ -86,15 +89,6 @@ int pop_front(deque *d) {
     return d->da[d->tail];    
 }
 
-int pop_back(deque *d) {
-    if (empty(d))
-        return -1;
-
-    d->head = (d->head + 1) % d->n;    
-
-    return d->da[d->head];
-}
-
 int front(deque *d) {
     if (empty(d))
         return -1;
@@ -102,21 +96,38 @@ int front(deque *d) {
     return d->tail ? d->da[d->tail - 1] : d->da[d->n - 1];
 }
 
-int back(deque *d) {
-    if (empty(d))
-        return -1;
-
-    return d->da[(d->head + 1) % d->n];
-}
-
 int min(int a, int b) {
     return a < b ? a : b;
 }
 
-int minExe(int *arr, int n, int size) {
+void freeDeque(deque *d){
+    free(d->da);
+    free(d);
+}
+
+int minExe(int *arr, int n, int ds) {
     deque *d;
-    
+    int count;
+    int sum = 0;
 
+    d = initDeque(ds + 1);
 
+    for (int i = 1; i <= ds; i++) 
+        push_front(d, -i + ds + 1);
 
+    for (int i = 0; i < n; i++) {
+        count = 0;
+
+        while (front(d) != arr[i]) {
+            push_back(d, pop_front(d));
+
+            count++;
+        }
+        sum += min(count, size(d) - count);
+
+        pop_front(d);
+    }
+    freeDeque(d);
+
+    return sum;
 }
