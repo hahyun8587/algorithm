@@ -20,7 +20,7 @@ typedef struct {
     int tail;
 } deque;
 
-deque* initDeque(int n)
+deque* initDeque(int n);
 int size(deque *d);
 int push_back(deque *d, int x);
 int empty(deque *d);
