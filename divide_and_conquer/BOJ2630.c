@@ -25,12 +25,6 @@ int main() {
 }
 
 void divide(int (*src)[MAX_SIZE], int *dst, int xs, int xe, int ys, int ye) {
-    if (xs == xe) {
-        dst[src[xs][ys]]++;
-
-        return;
-    }
-
     int val;
     int isSolid = 1;
 
