@@ -23,7 +23,7 @@ int fact(int n, int c) {
     for (int i = 1; i <= n; i++) 
         val = (int) ((ll) i % c * val % c);
 
-    return val;
+    return val % c;
 }
 
 int combine(int val, int a, int b, int c) {
