@@ -38,7 +38,7 @@ void dot(int (*src1)[MAX_SIZE], int n, int m, int (*src2)[MAX_SIZE], int p, int 
             for (int k = 0; k < p; k++) 
                sum += src1[i - 1][k] * src2[k][j]; 
 
-            dst[(i - 1) / o][(i - 1) % o] = sum;  
+            dst[i - 1][j] = sum;  
         }
     }
 }
