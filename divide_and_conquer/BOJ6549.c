@@ -48,7 +48,7 @@ ll maxBound(int *arr, int s, int mid, int e) {
         if (left < s)
             minHei = min(arr[right++], minHei);
         else if (right > e || arr[left] > arr[right])
-            minHei = min(arr[left++], minHei);  
+            minHei = min(arr[left--], minHei);  
         else
             minHei = min(arr[right++], minHei);
 
