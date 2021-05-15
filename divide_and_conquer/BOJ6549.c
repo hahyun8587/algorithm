@@ -7,13 +7,23 @@ typedef long long ll;
 int min(int a, int b);
 ll max(ll a, ll b);
 ll maxBound(int *arr, int s, int mid, int e);
-ll _maxArea(int *arr, int n, int s, int e);
-ll maxArea(int *arr, int n);
+ll maxArea(int *arr, int s, int e);
 
 int main() {
+    int arr[MAX_SIZE];
+    int n;
 
+    while (1) {
+        scanf("%d", &n);
 
+        if (!n)
+            break;
 
+        for (int i = 0; i < n; i++)
+            scanf("%d", &arr[i]);
+
+        printf("%lld\n", maxArea(arr, 0, n - 1));    
+    }
     return 0;
 }
 
@@ -42,14 +52,16 @@ ll maxBound(int *arr, int s, int mid, int e) {
         else
             minHei = min(arr[right++], minHei);
 
-        result = max((ll) (right - (left + 1)) * minHei, maxArea);          
+        result = max((ll) (right - (left + 1)) * minHei, result);          
     }
     return result;
 }
 
-ll _maxArea(int *arr, int n, int s, int e) {
-    
+ll maxArea(int *arr, int s, int e) {
+    if (s == e)
+        return (ll) arr[s];
 
+    int mid = s + (e - s + 1) / 2 - 1;
 
-
+    return max(max(maxArea(arr, s, mid), maxArea(arr, mid + 1, e)), maxBound(arr, s, mid, e));  
 }
