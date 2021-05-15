@@ -27,23 +27,28 @@ ll max(ll a, ll b) {
 
 ll maxBound(int *arr, int s, int mid, int e) {
     int minHei;
-    int left = mid + 1;
+    int left = mid - 1;
     int right = mid + 2;
-    ll maxArea;
+    ll result;
 
     minHei = min(arr[mid], arr[mid + 1]);
-    maxArea = (ll) (right - (left + 1)) * minHei; 
+    result = (ll) (right - (left + 1)) * minHei; 
 
-    while ()
+    while (left >= s || right <= e) {
+        if (left < s)
+            minHei = min(arr[right++], minHei);
+        else if (right > e || arr[left] > arr[right])
+            minHei = min(arr[left++], minHei);  
+        else
+            minHei = min(arr[right++], minHei);
 
-
-
-
+        result = max((ll) (right - (left + 1)) * minHei, maxArea);          
+    }
+    return result;
 }
 
-
 ll _maxArea(int *arr, int n, int s, int e) {
-
+    
 
 
 
