@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <malloc.h>
 
 #define MAX_SIZE 100000
 #define NUM_AXIS 2
@@ -27,3 +28,10 @@ int main() {
     return 0;
 }
 
+heap* initHeap(int (*arr)[NUM_AXIS], int n) {
+    heap *h;
+
+    
+
+
+}
