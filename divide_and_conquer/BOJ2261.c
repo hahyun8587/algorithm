@@ -16,7 +16,7 @@ void sink(heap *h, int s);
 void heapify(heap *h);
 void delete(heap *h);
 void heapSort(heap *h);
-int minLine(int **arr, int l);
+int minLane(int **arr, int l);
 int min(int a, int b);
 int minBound(int **arr, int mid, int d);
 int _minDist(int **arr, int s, int e);
@@ -96,8 +96,8 @@ void heapSort(heap *h) {
         delete(h);   
 }
 
-int minLine(int **arr, int l) {
-    
+int minLane(int **arr, int l) {
+
 
 
 
