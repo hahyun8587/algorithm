@@ -6,17 +6,18 @@
 typedef struct {
     int **ha;
     int n;
-    int (**type)(int **, int, int);
+    int (**type)(int **, int, int, int);
 } heap;
 
 int** mmalloc(int n, int m);
-int ascn(int **arr, int i, int j);
+int ascn(int **arr, int i, int j, int std);
+int descn(int **arr, int i, int j, int std);
 heap* initHeap(int n, int m, int nt);
 void swap(int **a, int **b);
-void sink(heap *h, int s);
-void heapify(heap *h);
-void delete(heap *h);
-void heapSort(heap *h);
+void sink(heap *h, int s, int order, int std);
+void heapify(heap *h, int order, int std);
+void delete(heap *h, int order, int std);
+void heapSort(heap *h, int order, int std);
 int dist(int **arr, int i, int j);
 int min(int a, int b);
 int minBound(int **arr, int s, int mid, int e, int d);
@@ -41,23 +42,32 @@ int** mmalloc(int n, int m) {
     return arr;    
 }
 
-int ascn(int **arr, int i, int j) {
-    if (arr[i][0] > arr[j][0])
-        return 0;
-    else if (arr[i][0] == arr[j][0]) 
-        return arr[i][1] >= arr[j][1] ? 0 : 1;    
+int ascn(int **arr, int i, int j, int std) {
+    if (arr[i][std] > arr[j][std])
+        return 0;    
     else 
         return 1;
 }
 
+int descn(int **arr, int i, int j, int std) {
+    if (arr[i][std] < arr[j][std])
+        return 0;  
+    else 
+        return 1;
+}   
+
 heap* initHeap(int n, int m, int nt) {
     heap *h;
+    int (*fp[]) (int **, int, int, int) = { ascn, descn };
     
     h = (heap *) malloc(sizeof(heap));
     h->ha = mmalloc(n, m);
     h->n = n;
-    h->type = type;
+    h->type = (int (**)(int **, int, int, int)) malloc(sizeof(int (*)(int **, int, int, int)) * nt);
     
+    for (int i = 0; i < nt; i++)
+        h->type[i] = fp[i];
+
     return h;
 }
 
@@ -69,7 +79,7 @@ void swap(int **a, int **b) {
     *b = temp;
 }
 
-void sink(heap *h, int s) {
+void sink(heap *h, int s, int order, int std) {
     int curr;
     int cmp;
 
@@ -79,7 +89,7 @@ void sink(heap *h, int s) {
         if (curr * 2 == h->n - 1)
             cmp = curr * 2;
         else
-            cmp = !h->type(h->ha, curr * 2, curr * 2 + 1) ? curr * 2 : curr * 2 + 1;
+            cmp = !h->type[order](h->ha, curr * 2, curr * 2 + 1, std) ? curr * 2 : curr * 2 + 1;
         
         if (type(h->ha, curr, cmp)) {
             swap(&h->ha[curr], &h->ha[cmp]);
@@ -91,21 +101,21 @@ void sink(heap *h, int s) {
     }
 }
 
-void heapify(heap *h) {
+void heapify(heap *h, int order, int std) {
     for (int i = (h->n - 1) / 2; i >= 1; i--)
-        sink(h, i);
+        sink(h, i, order, std);
 }
 
-void delete(heap *h) {
+void delete(heap *h, int order, int std) {
     swap(&h->ha[1], &h->ha[h->n-- - 1]);
-    sink(h, 1);
+    sink(h, 1, order, std);
 }
 
-void heapSort(heap *h) {
-    heapify(h);
+void heapSort(heap *h, int order, int std) {
+    heapify(h, order, std);
 
     for (int i = 1; i < h->n; i++) 
-        delete(h);   
+        delete(h, order, std);   
 }
 
 int dist(int **arr, int i, int j) {
