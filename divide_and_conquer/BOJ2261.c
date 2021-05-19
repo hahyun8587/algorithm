@@ -9,17 +9,19 @@ typedef struct {
     int (*type)(int **, int, int);
 } heap;
 
+int** mmalloc(int n, int m);
 int ascn(int **arr, int i, int j);
-heap* initHeap(int **arr, int n, int (*type)(int **, int, int));
+heap* initHeap(int n, int m, int (*type)(int **, int, int));
 void swap(int **a, int **b);
 void sink(heap *h, int s);
 void heapify(heap *h);
 void delete(heap *h);
 void heapSort(heap *h);
-int minLane(int **arr, int l);
+int dist(int **arr, int i, int j);
 int min(int a, int b);
-int minBound(int **arr, int mid, int d);
-int _minDist(int **arr, int s, int e);
+int minLane(int **arr, int s, int mid, int e);
+int minBound(int **arr, int s, int mid, int e, int d);
+int _minDist(int **arr, int *border, int s, int e);
 int minDist(int **arr, int n);
 
 int main() {
@@ -27,6 +29,17 @@ int main() {
 
 
     return 0;
+}
+
+int** mmalloc(int n, int m) {
+    int **arr;
+
+    arr = (int **) malloc(sizeof(int *) * n);
+
+    for (int i = 0; i < n; i++)
+        arr[i] = (int *) malloc(sizeof(int) * m);
+
+    return arr;    
 }
 
 int ascn(int **arr, int i, int j) {
@@ -38,11 +51,11 @@ int ascn(int **arr, int i, int j) {
         return 1;
 }
 
-heap* initHeap(int **arr, int n, int (*type)(int **, int, int)) {
+heap* initHeap(int n, int m, int (*type)(int **, int, int)) {
     heap *h;
     
     h = (heap *) malloc(sizeof(heap));
-    h->ha = arr;
+    h->ha = mmalloc(n, m);
     h->n = n;
     h->type = type;
     
@@ -96,7 +109,28 @@ void heapSort(heap *h) {
         delete(h);   
 }
 
-int minLane(int **arr, int l) {
+int dist(int **arr, int i, int j) {
+    int a = arr[i][0] - arr[j][0];
+    int b = arr[i][1] - arr[j][1];
+
+    return a * a + b * b;
+}
+
+int min(int a, int b) {
+    return a < b ? a : b;
+}
+
+int minLane(int **arr, int s, int mid, int e) {
+    int curr;
+    int left, right;
+    int val = arr[s][0];
+    int min = INF;
+
+    
+
+
+
+
 
 
 
