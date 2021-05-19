@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <malloc.h>
 
+#define NUM_AXIS 2
 #define NUM_TYPE 2
 #define INF 200000000
 
@@ -19,16 +20,27 @@ void sink(heap *h, int s, int order, int std);
 void heapify(heap *h, int order, int std);
 void delete(heap *h, int order, int std);
 void heapSort(heap *h, int order, int std);
+void freeHeap(heap *h);
 int dist(int **arr, int i, int j);
 int min(int a, int b);
-void freeHeap(heap *h);
 int minBound(int **arr, int s, int mid, int e, int d);
 int _minDist(int **arr, int s, int e);
 int minDist(int **arr, int n);
+void mfree(int **arr, int n);
 
 int main() {
+    int **arr;
+    int n;
 
+    scanf("%d", &n);
 
+    arr = mmalloc(n + 1, NUM_AXIS);
+
+    for (int i = 1; i <= n; i++)
+        scanf("%d %d", &arr[i][0], &arr[i][1]);
+
+    printf("%d\n", minDist(arr, n + 1));
+    mfree(arr, n + 1);
 
     return 0;
 }
@@ -114,10 +126,14 @@ void delete(heap *h, int order, int std) {
 }
 
 void heapSort(heap *h, int order, int std) {
+    int n = h->n;
+
     heapify(h, order, std);
 
-    for (int i = 1; i < h->n; i++) 
-        delete(h, order, std);   
+    for (int i = 1; i < n; i++) 
+        delete(h, order, std);  
+
+    h->n = n; 
 }
 
 int dist(int **arr, int i, int j) {
@@ -176,7 +192,38 @@ int minBound(int **arr, int s, int mid, int e, int d) {
                 break;    
         }
     }
+    heapSort(h, 0, 0);
     freeHeap(h);
 
     return d;
+}
+
+int _minDist(int **arr, int s, int e) {
+    if (e - s + 1 == 2)
+        return dist(arr, s, e);
+
+    int mid = s + (e - s + 1) / 2;
+    int d;
+
+    d = min(_minDist(arr, s, mid), _minDist(arr, mid, e));
+
+    return min(minBound(arr, s, mid, e, d), d);        
+}
+
+int minDist(int **arr, int n) {
+    heap *h;
+
+    h = initHeap(arr, n, NUM_TYPE);
+
+    heapSort(h, 0, 0);
+    freeHeap(h);
+
+    return _minDist(arr, 1, n - 1);
+}
+
+void mfree(int **arr, int n) {
+    for (int i = 0; i < n; i++)
+        free(arr[i]);
+
+    free(arr);    
 }
