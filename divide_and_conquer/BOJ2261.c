@@ -19,9 +19,9 @@ void delete(heap *h);
 void heapSort(heap *h);
 int dist(int **arr, int i, int j);
 int min(int a, int b);
-int minLane(int **arr, int s, int mid, int e);
-int minBound(int **arr, int s, int mid, int e, int d);
-int _minDist(int **arr, int *border, int s, int e);
+int minLane(int **arr, int s, int b, int e);
+int minBound(int **arr, int s, int bs, int be, int e, int d);
+int _minDist(int **arr, int n, int *border, int s, int e);
 int minDist(int **arr, int n);
 
 int main() {
@@ -120,18 +120,51 @@ int min(int a, int b) {
     return a < b ? a : b;
 }
 
-int minLane(int **arr, int s, int mid, int e) {
+int minLane(int **arr, int s, int b, int e) {
     int curr;
     int left, right;
-    int val = arr[s][0];
-    int min = INF;
+    int d = INF;
 
+    if (arr[s][1] <= arr[b][1]) {
+        curr = s;
+        left = s + 1;
+        right = b;
+    }
+    else {
+        curr = b;
+        left = s;
+        right = b + 1;
+    }
+
+    while (left != b || right <= e) {
+        if (left == b) {
+            d = min(dist(arr, curr, right), d);
+            curr = right++;
+        }
+        else if (right > e || arr[left][1] < arr[right][1]) {
+            d = min(dist(arr, curr, left), d);
+            curr = left++;
+        }
+        else if (arr[left][1] > arr[right][1]) {
+            d = min(dist(arr, curr, right), d);
+            curr = right++;
+        }
+        else {
+            if (curr < b) {
+                d = min(dist(arr, curr, left), d);
+                curr = left++;
+            }
+            else {
+                d = min(dist(arr, curr, right), d);
+                curr = right++;
+            }
+        }
+    }
+    return d;
+}
+
+int minBound(int **arr, int s, int bs, int be, int e, int d) {
     
-
-
-
-
-
 
 
 
