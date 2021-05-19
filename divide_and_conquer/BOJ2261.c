@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <malloc.h>
 
+#define NUM_TYPE 2
 #define INF 200000000
 
 typedef struct {
@@ -12,7 +13,7 @@ typedef struct {
 int** mmalloc(int n, int m);
 int ascn(int **arr, int i, int j, int std);
 int descn(int **arr, int i, int j, int std);
-heap* initHeap(int n, int m, int nt);
+heap* initHeap(int **arr, int n, int nt);
 void swap(int **a, int **b);
 void sink(heap *h, int s, int order, int std);
 void heapify(heap *h, int order, int std);
@@ -20,8 +21,9 @@ void delete(heap *h, int order, int std);
 void heapSort(heap *h, int order, int std);
 int dist(int **arr, int i, int j);
 int min(int a, int b);
+void freeHeap(heap *h);
 int minBound(int **arr, int s, int mid, int e, int d);
-int _minDist(int **arr, int n, int *border, int s, int e);
+int _minDist(int **arr, int s, int e);
 int minDist(int **arr, int n);
 
 int main() {
@@ -56,12 +58,12 @@ int descn(int **arr, int i, int j, int std) {
         return 1;
 }   
 
-heap* initHeap(int n, int m, int nt) {
+heap* initHeap(int **arr, int n, int nt) {
     heap *h;
     int (*fp[]) (int **, int, int, int) = { ascn, descn };
     
     h = (heap *) malloc(sizeof(heap));
-    h->ha = mmalloc(n, m);
+    h->ha = arr;
     h->n = n;
     h->type = (int (**)(int **, int, int, int)) malloc(sizeof(int (*)(int **, int, int, int)) * nt);
     
@@ -91,7 +93,7 @@ void sink(heap *h, int s, int order, int std) {
         else
             cmp = !h->type[order](h->ha, curr * 2, curr * 2 + 1, std) ? curr * 2 : curr * 2 + 1;
         
-        if (type(h->ha, curr, cmp)) {
+        if (h->type[order](h->ha, curr, cmp, std)) {
             swap(&h->ha[curr], &h->ha[cmp]);
 
             curr = cmp;    
@@ -129,9 +131,52 @@ int min(int a, int b) {
     return a < b ? a : b;
 }
 
+void freeHeap(heap *h) {
+    free(h->type);
+    free(h);
+}
+
 int minBound(int **arr, int s, int mid, int e, int d) {
+    int mx = arr[mid][0];
+    int bs = -1, be = -1;
 
+    for (int i = s; i < mid; i++) {
+        if (mx - arr[i][0] < d) {
+            bs = i;    
+            
+            break;
+        }
+    }
 
+    if (bs == -1)
+        return INF;
 
+    for (int i = e; i > mid; i--) {
+        if (arr[i][0] - mx < d) {
+            be = i;
 
+            break;
+        }
+    }
+
+    if (be == -1)
+        return INF;
+
+    heap *h;
+
+    h = initHeap(&arr[bs - 1], be - bs + 2, NUM_TYPE);
+
+    heapSort(h, 0, 1);
+
+    for (int i = bs; i < be; i++) {
+        for (int j = i + 1; j <= be; j++) {
+            if (arr[j][1] - arr[i][1] < d)
+                d = min(dist(arr, i, j), d);
+            else 
+                break;    
+        }
+    }
+    freeHeap(h);
+
+    return d;
 }
