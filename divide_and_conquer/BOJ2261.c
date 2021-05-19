@@ -6,12 +6,12 @@
 typedef struct {
     int **ha;
     int n;
-    int (*type)(int **, int, int);
+    int (**type)(int **, int, int);
 } heap;
 
 int** mmalloc(int n, int m);
 int ascn(int **arr, int i, int j);
-heap* initHeap(int n, int m, int (*type)(int **, int, int));
+heap* initHeap(int n, int m, int nt);
 void swap(int **a, int **b);
 void sink(heap *h, int s);
 void heapify(heap *h);
@@ -19,8 +19,7 @@ void delete(heap *h);
 void heapSort(heap *h);
 int dist(int **arr, int i, int j);
 int min(int a, int b);
-int minLane(int **arr, int s, int b, int e);
-int minBound(int **arr, int s, int bs, int be, int e, int d);
+int minBound(int **arr, int s, int mid, int e, int d);
 int _minDist(int **arr, int n, int *border, int s, int e);
 int minDist(int **arr, int n);
 
@@ -51,7 +50,7 @@ int ascn(int **arr, int i, int j) {
         return 1;
 }
 
-heap* initHeap(int n, int m, int (*type)(int **, int, int)) {
+heap* initHeap(int n, int m, int nt) {
     heap *h;
     
     h = (heap *) malloc(sizeof(heap));
@@ -120,51 +119,8 @@ int min(int a, int b) {
     return a < b ? a : b;
 }
 
-int minLane(int **arr, int s, int b, int e) {
-    int curr;
-    int left, right;
-    int d = INF;
+int minBound(int **arr, int s, int mid, int e, int d) {
 
-    if (arr[s][1] <= arr[b][1]) {
-        curr = s;
-        left = s + 1;
-        right = b;
-    }
-    else {
-        curr = b;
-        left = s;
-        right = b + 1;
-    }
-
-    while (left != b || right <= e) {
-        if (left == b) {
-            d = min(dist(arr, curr, right), d);
-            curr = right++;
-        }
-        else if (right > e || arr[left][1] < arr[right][1]) {
-            d = min(dist(arr, curr, left), d);
-            curr = left++;
-        }
-        else if (arr[left][1] > arr[right][1]) {
-            d = min(dist(arr, curr, right), d);
-            curr = right++;
-        }
-        else {
-            if (curr < b) {
-                d = min(dist(arr, curr, left), d);
-                curr = left++;
-            }
-            else {
-                d = min(dist(arr, curr, right), d);
-                curr = right++;
-            }
-        }
-    }
-    return d;
-}
-
-int minBound(int **arr, int s, int bs, int be, int e, int d) {
-    
 
 
 
