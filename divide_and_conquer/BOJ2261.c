@@ -2,7 +2,7 @@
 #include <malloc.h>
 
 #define NUM_AXIS 2
-#define NUM_TYPE 2
+#define NUM_TYPE 1
 #define INF 200000000
 
 typedef struct {
@@ -20,6 +20,7 @@ void sink(heap *h, int s, int order, int std);
 void heapify(heap *h, int order, int std);
 void delete(heap *h, int order, int std);
 void heapSort(heap *h, int order, int std);
+void dedup(int **src, int n, int m, int ***dst, int *l);
 void freeHeap(heap *h);
 int dist(int **arr, int i, int j);
 int min(int a, int b);
@@ -136,6 +137,13 @@ void heapSort(heap *h, int order, int std) {
     h->n = n; 
 }
 
+void dedup(int **arr, int n, int m, int ***dst, int *l) {
+
+
+
+
+}
+
 int dist(int **arr, int i, int j) {
     int a = arr[i][0] - arr[j][0];
     int b = arr[i][1] - arr[j][1];
@@ -180,12 +188,12 @@ int minBound(int **arr, int s, int mid, int e, int d) {
 
     heap *h;
 
-    h = initHeap(&arr[bs - 1], be - bs + 2, NUM_TYPE);
+    h = initHeap(&arr[mid], be - mid + 1, NUM_TYPE);
 
     heapSort(h, 0, 1);
 
-    for (int i = bs; i < be; i++) {
-        for (int j = i + 1; j <= be; j++) {
+    for (int i = bs; i < mid; i++) {
+        for (int j = mid + 1; j <= be; j++) {
             if (arr[j][1] - arr[i][1] < d)
                 d = min(dist(arr, i, j), d);
             else 
@@ -199,7 +207,7 @@ int minBound(int **arr, int s, int mid, int e, int d) {
 }
 
 int _minDist(int **arr, int s, int e) {
-    if (e - s + 1 == 2)
+    if (e - s + 1 <= 2)
         return dist(arr, s, e);
 
     int mid = s + (e - s + 1) / 2;
