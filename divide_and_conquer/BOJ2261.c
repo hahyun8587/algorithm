@@ -20,7 +20,6 @@ void sink(heap *h, int s, int order, int std);
 void heapify(heap *h, int order, int std);
 void delete(heap *h, int order, int std);
 void heapSort(heap *h, int order, int std);
-void dedup(int **src, int n, int m, int ***dst, int *l);
 void freeHeap(heap *h);
 int dist(int **arr, int i, int j);
 int min(int a, int b);
@@ -137,13 +136,6 @@ void heapSort(heap *h, int order, int std) {
     h->n = n; 
 }
 
-void dedup(int **arr, int n, int m, int ***dst, int *l) {
-
-
-
-
-}
-
 int dist(int **arr, int i, int j) {
     int a = arr[i][0] - arr[j][0];
     int b = arr[i][1] - arr[j][1];
@@ -207,7 +199,7 @@ int minBound(int **arr, int s, int mid, int e, int d) {
 }
 
 int _minDist(int **arr, int s, int e) {
-    if (e - s + 1 <= 2)
+    if (e - s + 1 == 2)
         return dist(arr, s, e);
 
     int mid = s + (e - s + 1) / 2;
@@ -226,6 +218,10 @@ int minDist(int **arr, int n) {
     heapSort(h, 0, 0);
     freeHeap(h);
 
+    for (int i = 2; i < n; i++) {
+        if (arr[i - 1][0] == arr[i][0] && arr[i - 1][1] == arr[i][1])
+            return 0;
+    }
     return _minDist(arr, 1, n - 1);
 }
 
