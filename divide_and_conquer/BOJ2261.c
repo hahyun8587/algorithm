@@ -182,7 +182,7 @@ int minBound(int **arr, int s, int mid, int e, int d) {
 
     heap *h;
 
-    h = initHeap(&arr[mid], be - mid + 1, NUM_TYPE);
+    h = initHeap(&arr[bs - 1], be - bs + 2, NUM_TYPE);
 
     heapSort(h, 0, 1);
 
