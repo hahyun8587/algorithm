@@ -55,10 +55,7 @@ int** mmalloc(int n, int m) {
 }
 
 int ascn(int **arr, int i, int j, int std) {
-    if (arr[i][std] > arr[j][std])
-        return 0;    
-    else 
-        return 1;
+    return arr[i][std] > arr[j][std] ? 0 : 1;
 }
 
 heap* initHeap(int **arr, int n) {
