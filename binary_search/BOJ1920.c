@@ -42,6 +42,10 @@ int main() {
     return 0;
 }
 
+int ascn(int *arr, int i, int j) {
+    return arr[i] > arr[j] ? 0 : 1;
+}
+
 heap* initHeap(int *arr, int n) {
     heap *h;
 
@@ -51,10 +55,6 @@ heap* initHeap(int *arr, int n) {
     h->type = ascn;
 
     return h;
-}
-
-int ascn(int *arr, int i, int j) {
-    return arr[i] > arr[j] ? 0 : 1;
 }
 
 void swap(int *a, int *b) {
