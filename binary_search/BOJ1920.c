@@ -9,8 +9,8 @@ typedef struct {
     int (*type)(int *, int, int);
 } heap;
 
-heap* initHeap(int *arr, int n);
 int ascn(int *arr, int i, int j);
+heap* initHeap(int *arr, int n);
 void swap(int *a, int *b);
 void sink(heap *h, int s);
 void heapify(heap *h);
