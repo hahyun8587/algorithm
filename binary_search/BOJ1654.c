@@ -54,5 +54,5 @@ int maxLen(int *arr, int n, int t) {
     for (int i = 1; i < n; i++) 
         lim = max(arr[i], lim);
 
-    return _maxLen(arr, n, 1, lim, t);
+    return _maxLen(arr, n, 1LL, lim, t);
 }
