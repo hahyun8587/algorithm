@@ -25,3 +25,21 @@ int main() {
     return 0;
 }
 
+int ascn(int *arr, int i, int j) {
+    return arr[i] > arr[j] ? 1 : 0; 
+}
+
+int descn(int *arr, int i, int j) {
+    return arr[i] < arr[j] ? 1 : 0;
+}
+
+int adescn(int *arr, int i, int j) {
+    return abs(arr[i]) < abs(arr[j]) ? 1 : 0;
+}
+
+heap* initHeap(int n) {
+    
+
+
+
+}
