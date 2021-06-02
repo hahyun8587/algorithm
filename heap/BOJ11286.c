@@ -3,7 +3,7 @@
 #include <malloc.h>
 
 #define NUM_TYPE 3
-#define ORDER 1
+#define ORDER 2
 #define EMPTY_VAL 0
 
 typedef struct {

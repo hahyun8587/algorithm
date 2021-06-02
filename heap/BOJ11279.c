@@ -55,7 +55,12 @@ int descn(int *arr, int i, int j) {
 }
 
 int adescn(int *arr, int i, int j) {
-    return abs(arr[i]) < abs(arr[j]) ? 1 : 0;
+    if (abs(arr[i]) < abs(arr[j]))
+        return 1;
+    else if (abs(arr[i]) > abs(arr[j]))
+        return 0;     
+    else 
+        return descn(arr, i, j);
 }
 
 heap *initHeap(int n) {
