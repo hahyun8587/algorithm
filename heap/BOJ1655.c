@@ -2,7 +2,7 @@
 #include <malloc.h>
 
 #define NUM_TYPE 2
-#define MAX_SIZE 50001
+#define MAX_SIZE 100000
 
 typedef struct {
     int *ha;
@@ -20,13 +20,22 @@ int size(heap *h);
 void sink(heap *h, int s);
 int delete(heap *h);
 void freeHeap(heap *h);
-void mid(int *src, int n, int *dst);
-void aprintf(int *arr, int n);
+void median(int *src, int n, int *dst);
 
 int main() {
-    
+    int arr[MAX_SIZE];
+    int mid[MAX_SIZE];
+    int N;
 
+    scanf("%d", &N);
 
+    for (int i = 0; i < N; i++)
+        scanf("%d", &arr[i]);
+
+    median(arr, N, mid);
+
+    for (int i = 0; i < N; i++)
+        printf("%d\n", mid[i]);
 
     return 0;
 }
@@ -112,20 +121,17 @@ void freeHeap(heap *h) {
     free(h);
 }
 
-void mid(int *src, int n, int *dst) {
+void median(int *src, int n, int *dst) {
     heap *h1, *h2;
 
-    h1 = initHeap(MAX_SIZE, 0);
-    h2 = initHeap(MAX_SIZE, 1);
+    h1 = initHeap(MAX_SIZE / 2 + 1, 0);
+    h2 = initHeap(MAX_SIZE / 2 + 1, 1);
 
     swim(h1, dst[0] = src[0]);
 
     for (int i = 1; i < n; i++) {
-        if (top(h1) <= src[i])
-            swim(h1, src[i]);
-        else 
-            swim(h2, src[i]);
-
+        src[i] <= top(h1) ? swim(h1, src[i]) : swim(h2, src[i]);
+        
         int sh1, sh2;
 
         sh1 = size(h1);
@@ -142,4 +148,6 @@ void mid(int *src, int n, int *dst) {
             dst[i] = top(h1);        
         }    
     }
+    freeHeap(h1);
+    freeHeap(h2);
 }
