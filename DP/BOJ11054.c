@@ -5,7 +5,7 @@
 int forward(int a, int b);
 int backward(int a, int b);
 int max(int a, int b);
-void LIS(int *arr, int n, int *dp, int reverse);
+void LIS(int *arr, int n, int *dp, int r);
 int LBS(int *arr, int n);
 
 int main() {
@@ -34,16 +34,16 @@ int max(int a, int b) {
     return a > b ? a : b;
 }
 
-void LIS(int *arr, int n, int *dp, int reverse) {
+void LIS(int *arr, int n, int *dp, int r) {
     int (*fp[])(int, int) = { forward, backward };
 
     dp[0] = 0;
-    dp[(n - 1) * reverse + 1] = 1;
+    dp[(n - 1) * r + 1] = 1;
 
-    for (int i = (n - 3) * reverse + 2; fp[reverse](i, n - (n - 1) * reverse); i += -2 * reverse + 1) {
+    for (int i = (n - 3) * r + 2; fp[r](i, n - (n - 1) * r); i += -2 * r + 1) {
         int val = 0;
 
-        for (int j = (n - 1) * reverse; fp[reverse](j, i - 2 + 2 * reverse); j += -2 * reverse + 1) {
+        for (int j = (n - 1) * r; fp[r](j, i - 2 + 2 * r); j += -2 * r + 1) {
             if (arr[i - 1] > arr[j])
                 val = max(dp[j + 1], val);               
         }
