@@ -28,7 +28,20 @@ int minCost(int *arr, int n) {
     for (int i = 2; i <= n; i++) 
         dp[i][0] = 0;
 
-    
+    for (int i = 2; i <= n; i++) {
+        for (int j = 1; j <= n; j++) {
+            if (n - j + 1 < i)
+                dp[i][j] = 0;
+            else {
+                int val = INF;
+                
+                for (int k = 0; k <= i - 2; k++) 
+                    val = min(dp[k + 1][j] + dp[i - k - 1][j + k + 1], val);
+
+                for (int k = j - 1; )       
+            }
+        }
+    }
     
 
 
