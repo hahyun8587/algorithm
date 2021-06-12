@@ -7,9 +7,20 @@ int min(int a, int b);
 int minCost(int *arr, int n);
 
 int main() {
+    int arr[MAX_SIZE];
+    int T;
+    int K;
 
+    scanf("%d", &T);
 
+    for (int i = 1; i <= T; i++) {
+        scanf("%d", &K);
+        
+        for (int i = 0; i < K; i++)
+            scanf("%d", &arr[i]);
 
+        printf("%d\n", minCost(arr, K));    
+    }
     return 0;
 }
 
@@ -34,16 +45,17 @@ int minCost(int *arr, int n) {
                 dp[i][j] = 0;
             else {
                 int val = INF;
-                
+                int sum = 0;
+
                 for (int k = 0; k <= i - 2; k++) 
                     val = min(dp[k + 1][j] + dp[i - k - 1][j + k + 1], val);
 
-                for (int k = j - 1; )       
+                for (int k = j - 1; k <= i + j - 2; k++)
+                    sum += arr[k];
+
+                dp[i][j] = val + sum;           
             }
         }
     }
-    
-
-
-
+    return dp[n][1];
 }
