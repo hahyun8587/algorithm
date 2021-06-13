@@ -36,12 +36,12 @@ int minOp(int (*arr)[DIM], int n) {
             else {
                 int val = INF;
 
-                
+                for (int k = 0; k <= i - 2; k++) 
+                    val = min(dp[k + 1][1] + dp[i - k - 1][k + 2] + arr[0][0] * arr[k + 1][0] * arr[i - 1][1], val);
+
+                dp[i][j] = val;
             }
         }
     }
-
-
-
-
+    
 }
