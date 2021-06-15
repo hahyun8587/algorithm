@@ -8,8 +8,15 @@ int min(int a, int b);
 int minOp(int (*arr)[DIM], int n);
 
 int main() {
+    int arr[MAX_SIZE][DIM];
+    int N;
 
+    scanf("%d", &N);
 
+    for (int i = 0; i < N; i++)
+        scanf("%d %d", &arr[i][0], &arr[i][1]);
+
+    printf("%d\n", minOp(arr, N));        
 
     return 0;
 }
@@ -37,11 +44,11 @@ int minOp(int (*arr)[DIM], int n) {
                 int val = INF;
 
                 for (int k = 0; k <= i - 2; k++) 
-                    val = min(dp[k + 1][1] + dp[i - k - 1][k + 2] + arr[0][0] * arr[k + 1][0] * arr[i - 1][1], val);
+                    val = min(dp[k + 1][j] + dp[i - k - 1][j + k + 1] + arr[j - 1][0] * arr[j + k][0] * arr[i + j - 2][1], val);
 
                 dp[i][j] = val;
             }
         }
     }
-    
+    return dp[n][1];
 }
