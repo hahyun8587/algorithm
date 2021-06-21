@@ -39,6 +39,6 @@ void valid(int *arr, int n, int (*dp)[MAX_WEI + 1]) {
 
     for (int i = 1; i <= n; i++) {
         for (int j = 0; j <= MAX_WEI; j++) 
-            dp[i][j] = dp[i - 1][j] || dp[i - 1][abs(j - arr[i - 1])] ? 1 : 0;
+            dp[i][j] = dp[i - 1][j] || dp[i - 1][abs(j - arr[i - 1])] || dp[i - 1][j + arr[i - 1]] ? 1 : 0;
     }
 }
