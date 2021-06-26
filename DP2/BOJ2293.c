@@ -2,7 +2,7 @@
 
 #define MAX_CNUM 100
 #define MAX_SIZE 2
-#define MAX_TARGET 10000
+#define MAX_WEIGHT 10000
 
 int numCase(int *arr, int n, int k);
 
@@ -21,7 +21,7 @@ int main() {
 }
 
 int numCase(int *arr, int n, int k) {
-    int dp[MAX_SIZE][MAX_TARGET + 1];    
+    int dp[MAX_SIZE][MAX_WEIGHT + 1];    
 
     dp[0][0] = 1;
 
