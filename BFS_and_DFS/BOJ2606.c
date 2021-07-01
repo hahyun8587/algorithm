@@ -100,7 +100,8 @@ int BFS(int (*a)[MAX_SIZE], int n) {
 
     push(q, 0);
     
-    visited[0] = 1;
+    if (n > 1)
+        visited[0] = 1;
 
     while (!empty(q)) {
         int node; 
