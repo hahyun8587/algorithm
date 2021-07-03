@@ -10,7 +10,8 @@ typedef struct {
     int tail;
 } queue;
 
-int BFS(int (*loc)[MAX_SIZE], int n, int *visited);
+int BFS(int (*loc)[MAX_SIZE], int n, int *visited, int sx, int sy);
+void bubbleSort(int *arr, int n);
 void numBlock(int (*src)[MAX_SIZE], int n, int *dst, int *m);
 
 int main() {
@@ -18,4 +19,12 @@ int main() {
 
 
     return 0;
+}
+
+int BFS(int (*loc)[MAX_SIZE], int n , int *visited, int sx, int sy) {
+    int count = 0;
+
+        
+
+
 }
