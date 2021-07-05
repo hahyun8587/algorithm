@@ -23,10 +23,21 @@ void numBlock(int (*src)[MAX_SIZE], int n, int *dst, int *m);
 
 
 int main() {
-
+    
 
 
     return 0;
+}
+
+queue *initQueue(int n) {
+    queue *q;
+
+    q = (queue *) malloc(sizeof(queue));
+    q->qa = (int *) malloc(sizeof(int) * (n + 1));
+    q->n = n + 1;
+    q->tail = q->head = 0;
+
+    return q;
 }
 
 int BFS(int (*loc)[MAX_SIZE], int n , int *visited, int sx, int sy) {
@@ -94,14 +105,18 @@ void numBlock(int (*src)[MAX_SIZE], int n, int *dst, int *m) {
         for (int j = 0; j < n; j++) {
             if (src[i][j] && !visited[n * i + j]) {
                 int len;
-
+                
                 if (len = BFS(src, n, visited, i, j) > 1)
-                    visited[count++] = len;
+                    dst[count++] = len;
             }
         }
     }
-    
+    bubbleSort(dst, count);
 
+    *m = count;
 }
 
-
+void freeQueue(queue *q) {
+    free(q->qa);
+    free(q);
+}
