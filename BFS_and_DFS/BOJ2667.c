@@ -106,7 +106,7 @@ int BFS(int (*loc)[MAX_SIZE], int n , int *visited, int sx, int sy) {
         for (int i = 0; i < 4; i++) {
             int j = i > 0 ? i + x - 2 : x;
             int k = i < 3 ? i + y - 1 : y;
-            int l = node + (2 * (i / 2) - 1) * ((n - 1) * (i % 2) + 1);
+            int l = n * j + k;
 
             if (j >= 0 && j < n && k >= 0 && k < n) {
                 if (loc[j][k] && !visited[l]) {
