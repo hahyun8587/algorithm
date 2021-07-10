@@ -20,10 +20,29 @@ void BFS(int (*loc)[MAX_SIZE], int n, int m, int *visited, int sx, int sy);
 int minWorm(int (*arr)[MAX_SIZE], int n, int m);
 
 int main() {
+    int arr[MAX_SIZE][MAX_SIZE];
+    int T;
+    int N, M, K;
+
+    scanf("%d", &T);
     
+    for (int i = 0; i < T; i++) {
+        scanf("%d %d %d", &M, &N, &K);
 
+        for (int j = 0; j < N; j++) {
+            for (int k = 0; k < M; k++) 
+                arr[j][k] = 0;
+        }
 
+        for (int j = 0; j < K; j++) {
+            int x, y;
 
+            scanf("%d %d", &x, &y);
+            
+            arr[y][x] = 1;
+        }
+        printf("%d\n", minWorm(arr, N, M));
+    }
     return 0;
 }
 
@@ -71,7 +90,7 @@ int pop(queue *q) {
 void BFS(int (*loc)[MAX_SIZE], int n, int m, int *visited, int sx, int sy) {
     queue *q;
 
-    q = initQueue(n * m - 1);
+    q = initQueue(n * m);
 
     if (loc[sx][sy]) {
         push(q, m * sx + sy);
