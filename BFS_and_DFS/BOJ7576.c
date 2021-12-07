@@ -123,7 +123,7 @@ int minDate(int (*arr)[MAX_SIZE], int N, int M) {
 
     for (int i = 0; i < N; i++) {
         for (int j = 0; j < M; j++) {
-            if (arr[i][j] > 0)
+            if (arr[i][j] == 1)
                 push(q, i * M + j);           
         }
     }        
