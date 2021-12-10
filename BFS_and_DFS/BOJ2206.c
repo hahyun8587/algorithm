@@ -1,9 +1,10 @@
 #include <stdio.h>
 #include <malloc.h>
 
-#define MAX_SIZE 1000
+#define MAX_SIZE 100
 #define NUM_STATE 2
 #define NUM_DIRECTION 4
+#define ASCII_ZERO 48
 
 typedef struct {
     int *qa;
@@ -21,17 +22,21 @@ int size(queue *q);
 int push(queue *q, int x);
 bool empty(queue *q);
 int pop(queue *q);
-int BFS(int (*arr)[MAX_SIZE], int n, int m);
+int BFS(char (*arr)[MAX_SIZE], int n, int m);
 
 int main() {
-    int arr[MAX_SIZE][MAX_SIZE];
+    char arr[MAX_SIZE][MAX_SIZE];
     int N, M;
 
-    scanf("%d %d", &N, &M);
+    scanf("%d %d\n", &N, &M);
 
     for (int i = 0; i < N; i++) {
+        char c;
+
         for (int j = 0; j < M; j++) 
-            scanf("%d", &arr[i][j]);
+            scanf("%c", &arr[i][j]);
+
+        scanf("%c", &c);    
     }
     printf("%d\n", BFS(arr, N, M));
 
@@ -79,7 +84,7 @@ int pop(queue *q) {
     return val;
 }
 
-int BFS(int (*arr)[MAX_SIZE], int n, int m) {
+int BFS(char (*arr)[MAX_SIZE], int n, int m) {
     queue *q = initQueue(NUM_STATE * MAX_SIZE * MAX_SIZE + 1);
     int isPushed[NUM_STATE][MAX_SIZE * MAX_SIZE];
     int dist = -1;
@@ -112,7 +117,7 @@ int BFS(int (*arr)[MAX_SIZE], int n, int m) {
                 int cy = y + (j + 1) % 2 * (j - 1);
         
                 if ((cx >= 0 && cx < n) && (cy >= 0 && cy < m)) {
-                    if (cNode < n * m && !arr[cx][cy]) {
+                    if (cNode < n * m && !(arr[cx][cy] - ASCII_ZERO)) {
                         int nNode = m * cx + cy;
 
                         if (!isPushed[0][nNode]) {
@@ -121,7 +126,7 @@ int BFS(int (*arr)[MAX_SIZE], int n, int m) {
                             isPushed[1][nNode] = isPushed[0][nNode] = 1;
                         }   
                     }
-                    else if ((cNode < n * m && arr[cx][cy]) || (cNode >= n * m && !arr[cx][cy])) {
+                    else if ((cNode < n * m && arr[cx][cy] - ASCII_ZERO) || (cNode >= n * m && !(arr[cx][cy] - ASCII_ZERO))) {
                         int nNode = m * cx + cy + n * m;
 
                         if (!isPushed[1][nNode % (n * m)]) {
