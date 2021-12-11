@@ -51,11 +51,15 @@ int BFS(int sx, int sy, int ex, int ey, int n) {
     isPushed[s] = 1;
 
     while (!empty(q)) {
+        int iter = size(q);
 
+        for (int i = 0; i < iter; i++) {
+            int cNode = pop(q);
 
-
+            for (int j = 0; j < 2; j++) 
+                search(q, isPushed, cNode, n, j);
+        }
+        
 
     }
-
-
 }
