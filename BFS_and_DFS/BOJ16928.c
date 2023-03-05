@@ -50,8 +50,10 @@ void init_a(int (*a)[NUM_NODE]) {
 void update_a(int (*a)[NUM_NODE], int (*move)[2], int n) {
     for (int i = 0; i < n; i++) {
         for (int j = move[i][0] - 7; j <= move[i][0] - 2; j++) {
-            a[j][move[i][0] - 1] = 0;
-            a[j][move[i][1] - 1] = 1;
+            if (j >= 0) {
+                a[j][move[i][0] - 1] = 0;
+                a[j][move[i][1] - 1] = 1;
+            }
         }
 
         for (int j = 0; j < NUM_NODE; j++) {
@@ -115,8 +117,8 @@ int BFS(int (*a)[NUM_NODE], int *path, int t) {
         visited[i] = 0;
     }
 
-    visited[0] = 1;
     path[p++] = 1;
+    visited[0] = 1;
 
     push(q, 1);
     
@@ -127,8 +129,8 @@ int BFS(int (*a)[NUM_NODE], int *path, int t) {
 
         for (int i = 0; i < NUM_NODE; i++) {
             if (a[node - 1][i] && !visited[i]) {
-                visited[i] = 1;
                 path[p++] = i + 1;
+                visited[i] = 1;
 
                 if (i + 1 == t) {
                     freeQueue(q);
@@ -154,9 +156,9 @@ int min_dist(int (*a)[NUM_NODE], int *path, int n, int t) {
 
         for (i = 0; i < n; i++) {
             if (a[path[i] - 1][t - 1]) {
-                t = path[i];
                 dist++;
-
+                t = path[i];
+              
                 break;
             } 
         }
